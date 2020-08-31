@@ -15,7 +15,7 @@ namespace Snake
             {
                 snake.Print();
                 snake.Move();
-                Thread.Sleep(150);
+                Thread.Sleep(snake.Delay);
 
                 if (Console.KeyAvailable)
                 {

@@ -3,6 +3,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Text;
 
+using Snake.Levels;
+
 namespace Snake
 {
     enum Direction { Right, Left, Up, Down};
@@ -18,9 +20,11 @@ namespace Snake
 
         private ConsoleColor snakeColor;
         private ConsoleColor foodColor;
+
+        private Level level;
         public Snake(ConsoleColor snakeColor, ConsoleColor foodColor)
         {
-            snake = new List<Element>();
+            snake = new List<Element>(); 
             snake.Add(new Element(29, 12, snakeColor));
             snake.Add(new Element(30, 12, snakeColor));
 
@@ -32,6 +36,20 @@ namespace Snake
             random = new Random();
             food = new Element(0, 0, foodColor);
             GenerateFood();
+
+            level = new LevelA(snake.Count, this);
+
+        }
+
+        public Level Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+
+        public int Delay
+        {
+            get { return level.Delay; }
         }
 
         public void Print()
@@ -93,6 +111,8 @@ namespace Snake
 
                 // finally newHead becomes part of the snake
                 snake.Add(newHead);
+                // level up based on length of the sanke body
+                level.UpdateLength(snake.Count);
             } 
         }
 
